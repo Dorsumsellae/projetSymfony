@@ -50,14 +50,14 @@ class File
         return $this;
     }
 
-    static public function unzip(string $pathZip, string $pathDestination)
+    static public function unzip(string $pathZip, string $pathDestination): string
     {
         $zip = new ZipArchive();
         try {
             $zip->open($pathZip);
             $zip->extractTo($pathDestination);
             $zip->close();
-            return basename($pathZip) . " extraits !";
+            return basename($pathZip) . " extrait !";
         } catch (Exception $ex) {
             return $ex->getMessage();
         }

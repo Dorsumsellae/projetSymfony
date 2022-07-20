@@ -14,7 +14,7 @@ use App\Entity\File;
 
 class UploadFileController extends AbstractController
 {
-    #[Route('/upload_file', name: 'app_upload_file')]
+    #[Route('/admin/upload_file', name: 'app_upload_file')]
     public function index(Request $request, ManagerRegistry $doctrine): Response
     {
         $err = "";
