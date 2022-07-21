@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Form\UploadFileType;
 use App\Entity\Pays;
 use App\Entity\File;
+use App\Entity\Flag;
 
 class UploadFileController extends AbstractController
 {
@@ -35,8 +36,8 @@ class UploadFileController extends AbstractController
                 try {
                     $doc_db = $doctrine->getManager();
                     $handle = fopen($fileCsv, "r");
-                    $pays_get = $doctrine->getRepository(Pays::class);
-                    if ($pays_get->findAll()) throw new \Exception("La table est déjà remplie !");
+                    $paysRep = $doctrine->getRepository(Pays::class);
+                    if ($paysRep->findAll()) throw new \Exception("La table est déjà remplie !");
 
                     while (($tab = fgetcsv($handle, 1000, ",")) !== FALSE) {
                         //création du pays
@@ -59,7 +60,21 @@ class UploadFileController extends AbstractController
         } catch (FileException $e) {
             $err = 'Erreur de chargement du fichier : ' . $e->getMessage();
         }
-
+        try {
+            $flagFiles = glob($this->getParameter('upload_directory') . '/flags*.{svg,png,jpeg}');
+            foreach ($flagFiles as $flagFile) {
+                $dataFlag = explode($flagFile, '.');
+                $codeFlag = $dataFlag[0];
+                $countryFlag = $paysRep->findOneByCode($codeFlag);
+                if ($countryFlag) {
+                    $flag = new Flag();
+                    $flag->setCountry($countryFlag);
+                    $flag->setExtension($dataFlag[1]);
+                }
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
         return $this->renderForm('upload_file/index.html.twig', [
             'form' => $form,
             'alert' => $alert,
