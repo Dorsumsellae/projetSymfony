@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block title%}
+	Edition d'un pays
+{% endblock %}
+{% block main %}
+
+	<form>
+		{# Displaying errors (example: when the id doesn't exist) #}
+		<p>{{ errors }}</p>
+
+		{# Displaying id #}
+		<p class="w-25">ID =
+			{{ result.id }}</p>
+
+		{# Displaying input for the name #}
+		<div class="input-group mb-3 w-25">
+			<span class="input-group-text">Nom</span>
+			<input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ result.nom }}">
+		</div>
+
+		{# Displaying input for the code #}
+		<div class="input-group mb-3 w-25">
+			<span class="input-group-text">Code</span>
+			<input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ result.code }}">
+		</div>
+
+		{# Displaying flag and file input #}
+		<div>
+			<legend class="mb-3 w-25">Drapeau</legend>
+			<img class="mb-3 w-25" src="">
+			<div class="mb-3 w-25">
+				<input class="form-control" type="file" id="formFile">
+			</div>
+		</div>
+
+		{# Submit button #}
+		<div class="col-12 mb-3 w-25">
+			<button class="btn btn-primary" type="submit">Enregistrer les changements</button>
+		</div>
+	</form>
+{% endblock %}

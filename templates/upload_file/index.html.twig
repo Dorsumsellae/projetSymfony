@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire Upload Fichier
+{% endblock %}
+
+{% block main %}
+
+	<div class="formCSV">
+		{{form_start(form)}}
+		<div class="mb-3">
+			<label for="fichierCsv" class="form-label">Fichier CSV</label>
+			{{form_row(form.fichierCsv)}}
+		</div>
+		<div class="mb-3">
+			<label for="fichierZip" class="form-label">Fichier Zip</label>
+			{{form_row(form.fichierZip)}}
+		</div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+		{{form_end(form)}}
+	</div>
+
+	<div class="info">
+		{% if submittedForm %}
+			{% if  alert != "" %}
+				<div class="alert alert-warning" role="alert">
+					{{alert}}
+				</div>
+			{% endif %}
+			{% if  err != "" %}
+				<div class="alert alert-danger" role="alert">
+					{{err}}
+				</div>
+			{% endif %}
+			{% if  status != "" %}
+				<div class="alert alert-secondary" role="alert">
+					{{status}}
+				</div>
+			{% endif %}
+		{% endif %}
+	</div>
+
+
+{% endblock %}
