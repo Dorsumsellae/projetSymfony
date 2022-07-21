@@ -13,8 +13,15 @@
     {% for pays in results %}
     <tr>
       <td><a href='{{ path('edit_pays', {'id':pays.id}) }}'>{{ pays.id }}</a></td>
-      <td>{{ pays.nom }}</td>
+      <td>{{ pays.name }}</td>
       <td>{{ pays.code }}</td>
+        <td>
+            <div class="containerFlag">
+                {% if pays.flag != null %}
+                <img src="{{ asset("uploads/files/flags/"~pays.code~"."~pays.flag.fileType) }}" alt="Drapeau {{pays.name}}" style="height: 100px;">
+            {% endif %}
+            </div>
+        </td>
     </tr>
     {% endfor %}
   </table>
