@@ -16,10 +16,10 @@ class Pays
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 2)]
+    #[ORM\Column(length: 3)]
     private ?string $code = null;
 
-    #[ORM\OneToOne(mappedBy: 'country', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'pays', cascade: ['persist', 'remove'])]
     private ?Flag $flag = null;
 
     public function getId(): ?int
@@ -59,8 +59,8 @@ class Pays
     public function setFlag(Flag $flag): self
     {
         // set the owning side of the relation if necessary
-        if ($flag->getCountry() !== $this) {
-            $flag->setCountry($this);
+        if ($flag->getPays() !== $this) {
+            $flag->setPays($this);
         }
 
         $this->flag = $flag;

@@ -30,7 +30,7 @@ class UploadFileController extends AbstractController
                 if ($fileZip) {
                     $status = File::unzip($fileZip, $this->getParameter('upload_directory'));
                 } else {
-                    $alert = "Fichier non uploadé";
+                    $alert .= "Fichier non uploadé";
                 }
                 $fileCsv = $form->get('fichierCsv')->getData();
                 try {
@@ -55,26 +55,37 @@ class UploadFileController extends AbstractController
                     $alert = $e->getMessage();
                 }
             } else {
-                $alert = "Formulaire Invalide";
+                $alert .= "Formulaire Invalide";
             }
         } catch (FileException $e) {
             $err = 'Erreur de chargement du fichier : ' . $e->getMessage();
         }
         try {
-            $flagFiles = glob($this->getParameter('upload_directory') . '/flags*.{svg,png,jpeg}');
+            $doc_db = $doctrine->getManager();
+            $paysRep = $doctrine->getRepository(Pays::class);
+            $flagFiles = glob($this->getParameter('upload_directory') . '/flags/*.{svg,png,jpeg}', GLOB_BRACE);
             foreach ($flagFiles as $flagFile) {
-                $dataFlag = explode($flagFile, '.');
+                $fileName = basename($flagFile);
+                $dataFlag = explode('.', $fileName);
                 $codeFlag = $dataFlag[0];
-                $countryFlag = $paysRep->findOneByCode($codeFlag);
+                $countryFlag = $paysRep->findOneBy(["code" => $codeFlag]);
                 if ($countryFlag) {
                     $flag = new Flag();
-                    $flag->setCountry($countryFlag);
-                    $flag->setExtension($dataFlag[1]);
+                    $flag->setPays($countryFlag);
+                    $flag->setFileType($dataFlag[1]);
+                    $flag->setPath($this->getParameter('upload_directory') . "/flags/" . $fileName);
+                    $doc_db->persist($flag);
+                } else {
+                    $alert .= $codeFlag . " : pays non trouvé --";
                 }
             }
-        } catch (\Throwable $th) {
-            //throw $th;
+            $doc_db->flush();
+        } catch (\PDOException $e) {
+            $alert .= $e->getTraceAsString();
+        } catch (\Exception $e) {
+            $alert .= $e->getMessage() . "l : " . $e->getLine();
         }
+
         return $this->renderForm('upload_file/index.html.twig', [
             'form' => $form,
             'alert' => $alert,

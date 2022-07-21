@@ -10,10 +10,10 @@
 			<a href="/" class="nav-link px-2 link-secondary">Home</a>
 		</li>
 		<li>
-			<a href="#" class="nav-link px-2 link-dark">Affichage des Pays</a>
+			<a href="{{path('read_table')}}" class="nav-link px-2 link-dark">Affichage des Pays</a>
 		</li>
 		<li>
-			<a href="#" class="nav-link px-2 link-dark">Modification de pays</a>
+			<a href="{{path('read_table')}}" class="nav-link px-2 link-dark">Modification de pays</a>
 		</li>
 		{% if is_granted('ROLE_ADMIN') %}
 			<li>
