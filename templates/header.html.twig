@@ -1,54 +1,62 @@
-<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-	<a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-		<svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-			<use xlink:href="#bootstrap"></use>
-		</svg>
-	</a>
+<header
+    class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+            <use xlink:href="#bootstrap"></use>
+        </svg>
+    </a>
 
-	<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-		<li>
-			<a href="/" class="nav-link px-2 link-secondary">Home</a>
-		</li>
-		<li>
-			<a href="{{path('read_table')}}" class="nav-link px-2 link-dark">Affichage des Pays</a>
-		</li>
-		<li>
-			<a href="{{path('read_table')}}" class="nav-link px-2 link-dark">Modification de pays</a>
-		</li>
-		{% if is_granted('ROLE_ADMIN') %}
-			<li>
-				<a href="#" class="nav-link px-2 link-dark">Sauvegarde</a>
-			</li>
-			<li>
-				<a href={{path('app_upload_file')}} class="nav-link px-2 link-dark">Allimenter la table</a>
-			</li>
-		{% endif %}
-	</ul>
-	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-		<div class="dropdown text-end">
-			<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle show" data-bs-toggle="dropdown" aria-expanded="true">
-				<img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-			</a>
-			<ul class="dropdown-menu text-small show" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 34px);" data-popper-placement="bottom-start">
-				<li>
-					<a class="dropdown-item" href="#">New project...</a>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">Settings</a>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">Profile</a>
-				</li>
-				<li><hr class="dropdown-divider"></li>
-				<li>
-					<a class="dropdown-item" href={{path("app_logout")}}>Sign out</a>
-				</li>
-			</ul>
-		</div>
-	{% else %}
-		<div class="col-md-3 text-end">
-			<a role="button" class="btn btn-outline-primary me-2" href={{ path('app_login') }}>Se Connecter</a>
-			<a role="button" class="btn btn-primary" href={{ path('app_register') }}>S'inscrire</a>
-		</div>
-	{% endif %}
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li>
+            <a href="/" class="nav-link px-2 link-secondary">Home</a>
+        </li>
+        <li>
+            <a href="{{ path('read_table') }}" class="nav-link px-2 link-dark">Affichage des Pays</a>
+        </li>
+        <li>
+            <a href="{{ path('read_table') }}" class="nav-link px-2 link-dark">Modification de pays</a>
+        </li>
+        {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="#" class="nav-link px-2 link-dark">Sauvegarde</a>
+            </li>
+            <li>
+                <a href={{ path('app_upload_file') }} class="nav-link px-2 link-dark" >Allimenter la table</a>
+            </li>
+        {% endif %}
+    </ul>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div class="dropdown text-end">
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle show" data-bs-toggle="dropdown"
+               aria-expanded="true">
+                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small show"
+                style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 34px);"
+                data-popper-placement="bottom-start">
+                <li>
+                    <a class="dropdown-item" href="#">New project...</a>
+                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a class="dropdown-item" href={{ path("save_database") }}>Télécharger table Pays</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href={{ path("save_flags") }}>Télécharger drapeaux</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <a class="dropdown-item" href={{ path("app_logout") }}>Sign out</a>
+                </li>
+            </ul>
+        </div>
+    {% else %}
+        <div class="col-md-3 text-end">
+            <a role="button" class="btn btn-outline-primary me-2" href={{ path('app_login') }}>Se Connecter</a>
+            <a role="button" class="btn btn-primary" href={{ path('app_register') }}>S'inscrire</a>
+        </div>
+    {% endif %}
 </header>
