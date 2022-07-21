@@ -1,32 +1,21 @@
 {% extends 'base.html.twig' %}
 {% set counter = 0 %}
-{% block title%}
-	Tableau
-{% endblock %}
+{% block title%} Tableau {% endblock %}
 {% block main %}
-	<h1 class="container text-center">Résultat de la lecture de la table</h1>
+<h1 class="container text-center">Résultat de la lecture de la table</h1>
 
-	<table class="table table-dark table-striped align-items-center container">
-		<tr>
-			{% for field in fields %}
-				<th scope="col">{{ field }}</th>
-			{% endfor %}
-		</tr>
-		{% for pays in results %}
-			<tr>
-				<td>
-					<a href='{{ path('edit_pays', {'id':pays.id}) }}'>{{ pays.id }}</a>
-				</td>
-				<td>{{ pays.name }}</td>
-				<td>{{ pays.code }}</td>
-				<td>
-					<div class="containerFlag">
-						{% if pays.flag != null %}
-							<img src="{{ asset("uploads/files/flags/"~pays.code~"."~pays.flag.fileType) }}" alt="Drapeau {{pays.name}}" style="height: 100px;"></div>
-					{% endif %}
-
-				</td>
-			</tr>
-		{% endfor %}
-	</table>
+  <table class="table table-dark table-striped align-items-center container">
+    <tr>
+      {% for field in fields %}
+      <th scope="col">{{ field }}</th>
+      {% endfor %}
+    </tr>
+    {% for pays in results %}
+    <tr>
+      <td><a href='{{ path('edit_pays', {'id':pays.id}) }}'>{{ pays.id }}</a></td>
+      <td>{{ pays.nom }}</td>
+      <td>{{ pays.code }}</td>
+    </tr>
+    {% endfor %}
+  </table>
 {% endblock %}
