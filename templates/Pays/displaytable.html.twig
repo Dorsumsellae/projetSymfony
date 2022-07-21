@@ -1,20 +1,21 @@
 {% extends 'base.html.twig' %}
+{% set counter = 0 %}
 {% block title%} Tableau {% endblock %}
 {% block main %}
-<h1>Résultat de la lecture de la table</h1>
- 
-<table class="table">
-  <tr>
-    {% for field in fields %}
-    <th scope="col">{{ field }}</th>
+<h1 class="container text-center">Résultat de la lecture de la table</h1>
+
+  <table class="table table-dark table-striped align-items-center container">
+    <tr>
+      {% for field in fields %}
+      <th scope="col">{{ field }}</th>
+      {% endfor %}
+    </tr>
+    {% for pays in results %}
+    <tr>
+      <td><a href='{{ path('edit_pays', {'id':pays.id}) }}'>{{ pays.id }}</a></td>
+      <td>{{ pays.nom }}</td>
+      <td>{{ pays.code }}</td>
+    </tr>
     {% endfor %}
-  </tr>
-  {% for pays in results %}
-  <tr>
-    <td><a href='https://www.php.net/'>{{ pays.id }}</a></td>
-    <td>{{ pays.nom }}</td>
-    <td>{{ pays.code }}</td>
-  </tr>
-  {% endfor %}
-</table>
+  </table>
 {% endblock %}
