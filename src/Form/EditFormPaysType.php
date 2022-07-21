@@ -13,9 +13,8 @@ class EditFormPaysType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class)
-            ->add('code', TextType::class)
-        ;
+            ->add('name', TextType::class)
+            ->add('code', TextType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
