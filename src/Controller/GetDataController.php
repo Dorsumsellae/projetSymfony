@@ -37,7 +37,7 @@ class GetDataController extends AbstractController
 
             $results = $table->findAll();
 
-            $fields = ['id', 'nom', 'code', 'drapeau'];
+            $fields = ['id', 'nom', 'code'];
         } catch (\Exception $e) {
             $alert = $e->getMessage();
         }
