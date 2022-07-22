@@ -63,7 +63,7 @@ class UploadFileController extends AbstractController
         try {
             $doc_db = $doctrine->getManager();
             $paysRep = $doctrine->getRepository(Pays::class);
-            $flagFiles = glob($this->getParameter('upload_directory') . '/flags/*.{svg,png,jpeg,jpg,gif}', GLOB_BRACE);
+            $flagFiles = glob($this->getParameter('upload_directory') . '/flags/*.{svg,png,jpeg,jpg}', GLOB_BRACE);
             foreach ($flagFiles as $flagFile) {
                 $fileName = basename($flagFile);
                 $dataFlag = explode('.', $fileName);

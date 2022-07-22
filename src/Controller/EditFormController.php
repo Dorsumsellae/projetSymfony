@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Pays;
-use App\Form\EditFormPaysType;
+use App\Form\PaysType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,24 +37,40 @@ class EditFormController extends AbstractController
         try {
 
             $paysRep = $doctrine->getRepository(Pays::class);
-
+            $form = null;
             $result = $paysRep->find($id);
+            $form = $this->createForm(PaysType::class, $result);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $storeFileData = $form->get('flag')->getData();
+
+                // on ne traitera que si un fichier est effectivement transmis
+                if ($storeFileData) {
+
+                    // déplacement du fichier à l'emplacement attendu
+                    $newFilename = $paysRep->getCode() . '.svg';
+                    $storeFileData->move(
+                        $this->getParameter('upload_directory'),
+                        $newFilename
+                    );
+
+                    // enregistrement en base de données
+                    $paysRep->setFlag($newFilename);
+                    $doc_db->persist($paysRep);
+                    $doc_db->flush();
+                }
+
+                $doc_man = $doctrine->getManager();
+
+                $doc_man->persist($result);
+                $doc_man->flush();
+                $info = 'Pays mis à jour';
+            }
         } catch (\Exception $e) {
             $alert = $e->getMessage();
         }
-
-        $doc_man = $doctrine->getManager();
-
-        $form = $this->createForm(EditFormPaysType::class, $result);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $doc_man->persist($result);
-            $doc_man->flush();
-            $info = 'Pays mis à jour';
-        }
-
-        return $this->renderForm('edit/edit.html.twig', ['form' => $form, 'errors' => $alert, 'info' => $info, "result" => $result, "formSubmitted" => $form->isSubmitted()]);
+        return $this->renderForm('edit/edit.html.twig', ['form' => $form, 'errors' => $alert, 'info' => $info, "result" => $result]);
     }
 }

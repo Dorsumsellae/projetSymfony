@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Pays;
+use App\Entity\Flag;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +16,8 @@ class EditFormPaysType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('code', TextType::class);
+            ->add('code', TextType::class)
+            ->add('flag', FileType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
