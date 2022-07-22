@@ -14,7 +14,7 @@ class EditFormController extends AbstractController
 
     /**
      * @Route(
-     *        "/edit_pays/{id}",
+     *        "/manage/edit_pays/{id}",
      *        name="edit_pays",
      *        defaults={"id": "1"}
      * )
